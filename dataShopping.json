@@ -120,6 +120,25 @@
                     "price":[]
                 }
             ]
+    },
+    {
+        "id":"180",
+        "name":"Gói 180K",
+        "image":"./Image/image-10.png",
+        "description":"",
+        "choices":
+            [
+                {
+                    "name":"Đang có crush",
+                    "description": "Đang có crush",
+                    "price":[]
+                },
+                {
+                    "name":"Mối quan hệ bạn bè",
+                    "description":"Mỗi quan hệ bạn bè",
+                    "price":[]
+                }
+            ]
     }
  ]   
 
