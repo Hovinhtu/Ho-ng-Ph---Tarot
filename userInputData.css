@@ -44,3 +44,8 @@ td{
 .active{
     background-color: #cc60ac;
 }
+
+.btn-container{
+    display: flex;
+    justify-content: center;   
+}

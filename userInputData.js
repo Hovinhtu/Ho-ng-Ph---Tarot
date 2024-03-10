@@ -31,14 +31,17 @@ let input_desc = document.getElementById("desc")
 let input_choice = document.getElementById("choice")
 let input_choiceDesc = document.getElementById("choice-desc")
 let input_price = document.getElementById("price")
+let check_choice = document.getElementById("check-choice")
 
 let addBtn = document.getElementById('add');
 let updateBtn = document.getElementById('update');
 let deleteBtn = document.getElementById('delete');
 let listBtnOption = document.getElementsByClassName("btn-option");
 let sendBtn = document.getElementById("send")
-var indexOption = -1;
-let data_id = 0;
+var indexOption = -1
+let flag_id = false
+let flag_checkBox = false
+
 
 Array.from(listBtnOption).forEach((element, index)=>{
     element.addEventListener("click", ()=>{
@@ -47,47 +50,74 @@ Array.from(listBtnOption).forEach((element, index)=>{
         }
         element.classList.add("active");
         indexOption = index;
-    })
-    
+    })  
 })
 
-sendBtn.addEventListener("click",() => {
-    validateForm()
+
+
+
+
+sendBtn.addEventListener("click",validateForm)
+input_id.addEventListener('input', checkId)
+
+check_choice.addEventListener('change', (e) => {
+    if (e.target.checked) {
+        flag_checkBox = true
+    } else {
+        flag_checkBox = false
+    }
+    console.log(flag_checkBox)
 })
+
+
 
 function validateForm(){
         switch(indexOption){
             case 0:
-                if(input_id.value == "" || isNaN(input_id.value) ){
-                    console.log("ban can dien so vao day")
-                } else if(flag) {
-                    console.log("du lieu da bi trung")
+                console.log(flag_checkBox)
+                if(flag_checkBox){
+                    console.log(flag_id)
+                    if(input_id.value == "" || isNaN(input_id.value) ){
+                        console.log("ban can dien so vao day")
+                    } else if(!flag_id) {
+                        console.log("du lieu khong ton tai")
+                    } else {
+                        addChoiceData()
+                    }
                 } else {
-                    addData()
+                    if(input_id.value == "" || isNaN(input_id.value) ){
+                        console.log("ban can dien so vao day")
+                    } else if(flag_id) {
+                        console.log("du lieu da bi trung")
+                    } else {
+                        addData()
+                    }
                 }
+
                 break
             case 1:
-                console.log(1)
+                updateData()
                 break
             default:
-                console.log(2)
+                deleteData()
         }
     
 }
-let flag = false;
-input_id.addEventListener('input',checkId )
+
+
 function checkId(){
- 
     get(child(ref(db), "EmployeeSet/"))
     .then((snapshot)=>{
         if(snapshot.exists()){
-            Object.keys(snapshot.val()).forEach((element)=>{
-            if(element == input_id.value){
+            if(Object.keys(snapshot.val()).includes(input_id.value)){
                 console.log("Du lieu da bi trung")
-               flag = true
+                flag_id = true
+            } else {
+                console.log("Du lieu khong bi trung")
+                flag_id = false
             }
-        })
-        } else {
+        }
+         else {
             console.log("Du lieu khong ton tai")
         }
     })
@@ -115,9 +145,22 @@ function addData(){
     
 }
 
+function addChoiceData(){
+    push(ref(db, 'EmployeeSet/' + input_id.value + "/choices"),{
+      name: input_choice.value, description: input_choiceDesc.value, price:[input_price.value], 
+    })
+    .then(()=>{
+        alert("Data pushed successfully")
+    })
+    .catch((error)=>{
+        alert("Unsuccessfully");
+        console.log(error)
+    })
+}
+
 function updateData(){
     update(ref(db, 'EmployeeSet/' + input_id.value),{
-        choices: {name: input_choice.value, description: input_choiceDesc.value, price:[input_price.value]},
+        choices: [{name: input_choice.value, description: input_choiceDesc.value, price:[input_price.value]}],
         description: input_desc.value,
         image: input_image.value,
         name: input_package.value,
@@ -125,6 +168,17 @@ function updateData(){
     })
     .then(()=>{
         alert("Data updated successfully")
+    })
+    .catch((error)=>{
+        alert("Unsuccessfully");
+        console.log(error)
+    })
+}
+
+function deleteData(){
+    remove(ref(db, 'EmployeeSet/' + input_id.value))
+    .then(()=>{
+        alert("Data deleted successfully")
     })
     .catch((error)=>{
         alert("Unsuccessfully");
