@@ -152,8 +152,14 @@ function checkId(){
                             input_package.value = snapshot.val()[input_id.value].name
                             input_image.value = snapshot.val()[input_id.value].image
                             input_desc.value = snapshot.val()[input_id.value].description
+                            console.log(Object.values(snapshot.val()[input_id.value].choices))
                             Object.values(snapshot.val()[input_id.value].choices).forEach((element,index)=>{
                                     list_choice1.innerHTML += `<option value=${element.name}>${index}.${element.name}</option>`
+                            })
+                            list_choice1.addEventListener("change", function(){
+                              input_choice.value = Object.values(snapshot.val()[input_id.value].choices)[list_choice1.selectedIndex - 1].name
+                              input_choiceDesc.value = Object.values(snapshot.val()[input_id.value].choices)[list_choice1.selectedIndex - 1].description
+                              input_price.value = Object.values(snapshot.val()[input_id.value].choices)[list_choice1.selectedIndex - 1].price
                             })
                         }
                     }
