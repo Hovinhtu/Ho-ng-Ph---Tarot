@@ -32,6 +32,11 @@ let input_choice = document.getElementById("choice")
 let input_choiceDesc = document.getElementById("choice-desc")
 let input_price = document.getElementById("price")
 let check_choice = document.getElementById("check-choice")
+let list_choice1 = document.getElementById("list-choice-1")
+let list_choice2 = document.getElementById("list-choice-2")
+let wrap_delete = document.getElementsByClassName("wrap-delete")
+let wrap = document.getElementsByClassName("wrap")
+let tick_box = document.getElementsByClassName("tick-box")
 
 let addBtn = document.getElementById('add');
 let updateBtn = document.getElementById('update');
@@ -50,11 +55,29 @@ Array.from(listBtnOption).forEach((element, index)=>{
         }
         element.classList.add("active");
         indexOption = index;
+        switch (index){
+            case 1:
+                Array.from(wrap).forEach((element)=>{
+                    element.classList.remove("hidden")
+                })
+                wrap_delete[0].style.display = "none";
+                tick_box[0].style.visibility = "hidden";
+                break
+            case 2:
+                Array.from(wrap).forEach((element)=>{
+                    element.classList.add("hidden")
+                })
+                wrap_delete[0].style.display = "block"
+                break
+            default:
+                Array.from(wrap).forEach((element)=>{
+                    element.classList.remove("hidden")
+                })
+                wrap_delete[0].style.display = "none"
+                tick_box[0].style.visibility = "visible";
+        }
     })  
 })
-
-
-
 
 
 sendBtn.addEventListener("click",validateForm)
@@ -74,9 +97,7 @@ check_choice.addEventListener('change', (e) => {
 function validateForm(){
         switch(indexOption){
             case 0:
-                console.log(flag_checkBox)
                 if(flag_checkBox){
-                    console.log(flag_id)
                     if(input_id.value == "" || isNaN(input_id.value) ){
                         console.log("ban can dien so vao day")
                     } else if(!flag_id) {
@@ -96,7 +117,13 @@ function validateForm(){
 
                 break
             case 1:
-                updateData()
+                if(input_id.value == "" || isNaN(input_id.value) ){
+                    console.log("ban can dien so vao day")
+                } else if(!flag_id) {
+                    console.log("du lieu khong ton tai")
+                } else {
+                    updateData()
+                }
                 break
             default:
                 deleteData()
@@ -104,7 +131,7 @@ function validateForm(){
     
 }
 
-
+// Add data
 function checkId(){
     get(child(ref(db), "EmployeeSet/"))
     .then((snapshot)=>{
@@ -115,6 +142,46 @@ function checkId(){
             } else {
                 console.log("Du lieu khong bi trung")
                 flag_id = false
+            }
+
+            if(indexOption == 1 ){// Nếu ở phần sửa sẽ đẩy hết giá trị ra màn hình
+                get(child(ref(db), "EmployeeSet/"))
+                .then((snapshot)=>{
+                    if(snapshot.exists()){
+                        if(snapshot.val()[input_id.value] != undefined){
+                            input_package.value = snapshot.val()[input_id.value].name
+                            input_image.value = snapshot.val()[input_id.value].image
+                            input_desc.value = snapshot.val()[input_id.value].description
+                            Object.values(snapshot.val()[input_id.value].choices).forEach((element,index)=>{
+                                    list_choice1.innerHTML += `<option value=${element.name}>${index}.${element.name}</option>`
+                            })
+                        }
+                    }
+                     else {
+                        console.log("Du lieu khong ton tai")
+                    }
+                })
+                .catch((error)=>{
+                    console.log("co loi" + error)
+                }) 
+            }
+            if(indexOption == 2 ){// Nếu ở phần xóa sẽ đẩy hết giá trị ra màn hình
+                get(child(ref(db), "EmployeeSet/"))
+                .then((snapshot)=>{
+                    if(snapshot.exists()){
+                        if(snapshot.val()[input_id.value] != undefined){
+                            Object.values(snapshot.val()[input_id.value].choices).forEach((element,index)=>{
+                                    list_choice2.innerHTML += `<option value=${element.name}>${index}.${element.name}</option>`
+                            })
+                        }
+                    }
+                     else {
+                        console.log("Du lieu khong ton tai")
+                    }
+                })
+                .catch((error)=>{
+                    console.log("co loi" + error)
+                }) 
             }
         }
          else {
@@ -146,8 +213,9 @@ function addData(){
 }
 
 function addChoiceData(){
-    push(ref(db, 'EmployeeSet/' + input_id.value + "/choices"),{
-      name: input_choice.value, description: input_choiceDesc.value, price:[input_price.value], 
+    const newKey = push(child(ref(db), 'EmployeeSet/' + input_id.value + "/choices")).key;
+    update(ref(db, 'EmployeeSet/' + input_id.value + "/choices/" + newKey),{
+      name: input_choice.value, description: input_choiceDesc.value, price:[input_price.value]
     })
     .then(()=>{
         alert("Data pushed successfully")
@@ -158,21 +226,47 @@ function addChoiceData(){
     })
 }
 
+// Add data
+
+
+// Update data
 function updateData(){
-    update(ref(db, 'EmployeeSet/' + input_id.value),{
-        choices: [{name: input_choice.value, description: input_choiceDesc.value, price:[input_price.value]}],
-        description: input_desc.value,
-        image: input_image.value,
-        name: input_package.value,
-        id: input_id.value
-    })
-    .then(()=>{
-        alert("Data updated successfully")
+    get(child(ref(db), "EmployeeSet/"))
+    .then((snapshot)=>{
+        if(snapshot.exists()){
+            console.log(Object.keys(snapshot.val()[input_id.value].choices))
+            // Làm 2 cái update riêng
+            // 1 cho gói lớn
+            // 2 cho các gói nhỏ dựa trên lựa chọn trong phần selection
+            update(ref(db, 'EmployeeSet/' + input_id.value),{
+                choices: [
+                    {name: (input_choice.value != "") ? input_choice.value : console.log(snapshot.val()[input_id.value].choices), 
+                     description: input_choiceDesc.value, 
+                     price:[input_price.value],
+                    }
+                ],
+                description: (input_desc.value != "") ? input_desc.value : snapshot.val()[input_id.value].description,
+                image: (input_image.value != "") ? input_image.value : snapshot.val()[input_id.value].image,
+                name:(input_package.value != "") ? input_package.value : snapshot.val()[input_id.value].name,
+                id: input_id.value
+            })
+            .then(()=>{
+                alert("Data updated successfully")
+            })
+            .catch((error)=>{
+                alert("Unsuccessfully");
+                console.log(error)
+            })
+        }
+         else {
+            console.log("Du lieu khong ton tai")
+        }
     })
     .catch((error)=>{
-        alert("Unsuccessfully");
-        console.log(error)
-    })
+        console.log("co loi" + error)
+    }) 
+
+    
 }
 
 function deleteData(){
@@ -186,3 +280,9 @@ function deleteData(){
     })
 }
 
+// Push như bình thường
+// Nếu sửa lựa chọn thì thay vì sửa hay xóa và thêm lựa chọn mới
+// Tạo một list số thứ tự các lựa chọn khi chọn chế độ xóa
+// Sửa thành text box
+// Thêm danh sách lựa chọn
+// Khi sửa chỉ cần nhập id dữ liệu sẽ tự fill vào nếu không có id sẽ báo id không tồn tại

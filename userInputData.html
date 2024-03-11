@@ -27,43 +27,50 @@
                 <td><label for="id">Nhập id:</label></td>
                 <td><input type="text" name="" id="id"></td>
             </tr>
-            <tr>
-                <td><label for="package-name">Tên gói:</label></td>
-                <td><input type="text" name="" id="package-name"></td>
-            </tr>
-            <tr>
-                <td><label for="url-image">Url hình ảnh:</label></td>
-                <td><input type="text" name="" id="url-image"></td>
-            </tr>
-            <tr>
-                <td><label for="desc">Mô tả:</label></td>
-                <td><input type="text" name="" id="desc"></td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text">THÊM LỰA CHỌN</p>
-                </td>
-                <td>
-                    <input type="checkbox" name="" id="check-choice">
-                </td>
-            </tr>
+                <tr class="wrap">
+                    <td><label for="package-name">Tên gói:</label></td>
+                    <td><input type="text" name="" id="package-name"></td>
+                </tr>
+                <tr class="wrap">
+                    <td><label for="url-image">Url hình ảnh:</label></td>
+                    <td><input type="text" name="" id="url-image"></td>
+                </tr>
+                <tr class="wrap">
+                    <td><label for="desc">Mô tả:</label></td>
+                    <td><input type="text" name="" id="desc"></td>
+                </tr>
+                <tr>
+                <td class="wrap">
+                    <label for="listChoice" class="text">THÊM LỰA CHỌN:</label>
+                    <input class = "tick tick-box" type="checkbox" name="" id="check-choice">
+                    <select class="tick" id="list-choice-1" name="listChoice" style="width: fit-content;height: 25px;margin-left: 50px">
+                        <option value="-1">Danh sách các lựa chọn</option>
 
-            <tr>
-                <td><label for="choice">Tên lựa chọn:</label></td>
-                <td><input type="text" name="" id="choice"></td>
-            </tr>
-            <tr>
-                <td><label for="choice-desc">Mô tả:</label></td>
-                <td><input type="text" name="" id="choice-desc"></td>
-            </tr>
-            <tr>
-                <td><label for="price">Giá:</label></td>
-                <td><input type="text" name="" id="price"></td>
-            </tr>
-            <tr>
-                <td>
+                    </select>
                 </td>
-            </tr>
+                <td class="wrap-delete">
+                    <label for="listChoice" class="text">XÓA LỰA CHỌN:</label>
+                    <select class="tick" id="list-choice-2" name="listChoice" style="width: fit-content;height: 25px;margin-left: 20px;">
+                        <option value="-1">Danh sách các lựa chọn</option>
+                    </select>
+                    
+                </td>
+                </tr>
+                <tr class="wrap">
+                    <td><label for="choice">Tên lựa chọn:</label></td>
+                    <td><input type="text" name="" id="choice"></td>
+                </tr>
+                <tr class="wrap">
+                    <td><label for="choice-desc">Mô tả:</label></td>
+                    <td><input type="text" name="" id="choice-desc"></td>
+                </tr>
+                <tr class="wrap">
+                    <td><label for="price">Giá:</label></td>
+                    <td><input type="text" name="" id="price"></td>
+                   
+                </tr>
+            
+           
         </table>
         
     </form>

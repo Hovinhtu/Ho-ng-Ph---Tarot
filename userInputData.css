@@ -49,3 +49,28 @@ td{
     display: flex;
     justify-content: center;   
 }
+
+.wrap-delete{
+    display: none;
+    position: relative;
+}
+
+.tick{
+    position: absolute;
+    width: fit-content;
+}
+
+.wrap{
+    position: relative;
+}
+
+.hidden{
+    display: none;
+    position: relative;
+}
+
+input.tick{
+    width: 20px;
+    height: 20px;
+    margin-left: 20px;
+}
