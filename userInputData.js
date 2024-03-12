@@ -46,7 +46,7 @@ let sendBtn = document.getElementById("send")
 var indexOption = -1
 let flag_id = false
 let flag_checkBox = false
-
+let flag_select = false
 
 Array.from(listBtnOption).forEach((element, index)=>{
     element.addEventListener("click", ()=>{
@@ -92,7 +92,10 @@ check_choice.addEventListener('change', (e) => {
     console.log(flag_checkBox)
 })
 
-
+list_choice2.addEventListener('change',()=>{
+    flag_select = true
+    console.log("hello")
+})
 
 function validateForm(){
         switch(indexOption){
@@ -126,7 +129,11 @@ function validateForm(){
                 }
                 break
             default:
-                deleteData()
+                if(flag_select){
+                    deleteChoiceData()
+                } else {
+                    deleteData()
+                }
         }
     
 }
@@ -240,21 +247,27 @@ function updateData(){
     get(child(ref(db), "EmployeeSet/"))
     .then((snapshot)=>{
         if(snapshot.exists()){
-            console.log(Object.keys(snapshot.val()[input_id.value].choices))
             // Làm 2 cái update riêng
             // 1 cho gói lớn
             // 2 cho các gói nhỏ dựa trên lựa chọn trong phần selection
             update(ref(db, 'EmployeeSet/' + input_id.value),{
-                choices: [
-                    {name: (input_choice.value != "") ? input_choice.value : console.log(snapshot.val()[input_id.value].choices), 
-                     description: input_choiceDesc.value, 
-                     price:[input_price.value],
-                    }
-                ],
                 description: (input_desc.value != "") ? input_desc.value : snapshot.val()[input_id.value].description,
                 image: (input_image.value != "") ? input_image.value : snapshot.val()[input_id.value].image,
                 name:(input_package.value != "") ? input_package.value : snapshot.val()[input_id.value].name,
                 id: input_id.value
+            })
+            .then(()=>{
+                alert("Data updated successfully")
+            })
+            .catch((error)=>{
+                alert("Unsuccessfully");
+                console.log(error)
+            })
+
+            update(ref(db, 'EmployeeSet/' + input_id.value + "/choices/" + Object.keys(snapshot.val()[input_id.value].choices)[list_choice2.selectedIndex - 1]),{            
+                    name: input_choice.value, 
+                     description: input_choiceDesc.value, 
+                     price:[input_price.value]
             })
             .then(()=>{
                 alert("Data updated successfully")
@@ -284,8 +297,31 @@ function deleteData(){
         alert("Unsuccessfully");
         console.log(error)
     })
+
 }
 
+function deleteChoiceData(){
+    get(child(ref(db), "EmployeeSet/"))
+    .then((snapshot)=>{
+        if(snapshot.exists()){
+            console.log(Object.keys(snapshot.val()[input_id.value].choices)[list_choice2.selectedIndex - 1])
+            remove(ref(db, 'EmployeeSet/' + input_id.value + "/choices/" + Object.keys(snapshot.val()[input_id.value].choices)[list_choice2.selectedIndex - 1]))
+            .then(()=>{
+                alert("Choice Data delete successfully")
+            })
+            .catch((error)=>{
+                alert("Unsuccessfully");
+                console.log(error)
+            })
+        }
+         else {
+            console.log("Du lieu khong ton tai")
+        }
+    })
+    .catch((error)=>{
+        console.log("co loi" + error)
+    }) 
+}
 // Push như bình thường
 // Nếu sửa lựa chọn thì thay vì sửa hay xóa và thêm lựa chọn mới
 // Tạo một list số thứ tự các lựa chọn khi chọn chế độ xóa
