@@ -1,0 +1,37 @@
+.btn-container{
+    padding: 30px 70px;
+}
+
+.btn i {
+    margin-right: 10px;
+}
+
+.table{
+    width: 95%;
+    margin-left: 2.5%;
+}
+
+th,td {
+    text-align: center;
+}
+
+th{
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+
+.input{
+    border: none;
+    background-color: transparent;
+
+}
+
+.textarea{
+    border: none;
+    background-color: transparent;
+    overflow:hidden;
+}
+
+tr td:last-child{
+    background-color: transparent;
+}

@@ -1,4 +1,4 @@
-import dataShopping from "./dataShopping.json" assert {type: "json"};
+import dataShopping from "../Data/dataShopping.json" assert {type: "json"};
 
 // fetch("./data.json")
 //     .then((response)=>response.json())
