@@ -1,36 +1,36 @@
 @font-face {
     font-family: tarotFont;
-    src: url(/font/Sigmar_One/SigmarOne-Regular.ttf);
+    src: url(../font/Sigmar_One/SigmarOne-Regular.ttf);
 }
 
 @font-face {
     font-family: notoFont;
-    src: url(./font/Noto_Serif_Display/NotoSerifDisplay-VariableFont_wdth\,wght.ttf);
+    src: url(../font/Noto_Serif_Display/NotoSerifDisplay-VariableFont_wdth\,wght.ttf);
 }
 
 @font-face {
     font-family: notoSanFont;
-    src: url(./font/Noto_Sans/NotoSans-VariableFont_wdth\,wght.ttf);
+    src: url(../font/Noto_Sans/NotoSans-VariableFont_wdth\,wght.ttf);
 }
 
 @font-face {
     font-family: libreFont;
-    src: url(./font/Libre_Franklin/LibreFranklin-VariableFont_wght.ttf);
+    src: url(../font/Libre_Franklin/LibreFranklin-VariableFont_wght.ttf);
 }
 
 @font-face {
     font-family: shrikFont;
-    src: url(./font/Shrikhand/Shrikhand-Regular.ttf);
+    src: url(../font/Shrikhand/Shrikhand-Regular.ttf);
 }
 
 @font-face {
     font-family: mavenFont;
-    src: url(./font/Maven_Pro/MavenPro-VariableFont_wght.ttf);
+    src: url(../font/Maven_Pro/MavenPro-VariableFont_wght.ttf);
 }
 
 @font-face {
     font-family: sansitaFont;
-    src: url(./font/Sansita/Sansita-Regular.ttf);
+    src: url(../font/Sansita/Sansita-Regular.ttf);
 }
 
 *{

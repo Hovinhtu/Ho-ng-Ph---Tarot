@@ -25,7 +25,8 @@ const db = getDatabase();
 console.log(db)
 
 let input_id = document.getElementById("id")
-let input_package = document.getElementById("package-name")
+let input_package = document.getElementById("package-name"
+)
 let input_image = document.getElementById("url-image")
 let input_desc = document.getElementById("desc")
 let input_choice = document.getElementById("choice")

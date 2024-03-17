@@ -21,7 +21,7 @@ function darkMode(){
     link.id   = cssId;
     link.rel  = 'stylesheet';
     link.type = 'text/css';
-    link.href = 'dark-mode.css';
+    link.href = 'css/dark-mode.css';
     head.appendChild(link);
 
     var changeImg = document.getElementById("img-2");
