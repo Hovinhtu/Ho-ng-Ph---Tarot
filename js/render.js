@@ -37,11 +37,17 @@ function renderData(){
     get(child(ref(db), "EmployeeSet/"))
     .then((snapshot)=>{
         if(snapshot.exists()){
-            Object.values(snapshot.val()).
-            forEach((package_element, index)=>{
+            let dataArray = Object.values(snapshot.val())
+            
+            dataArray.forEach((package_element, index)=>{
 
                 let package_info = ``
-                let choice_info = ``
+                let choice_name = ``
+                    
+               // Lấy giá trị trong object tạo thành mảng
+                Object.values(package_element.choices).forEach((choice_element,index)=>{
+                    choice_name += `<option value="${choice_element.name}">${choice_element.name}</option>`
+                })
 
                 package_info += `
                     <tr>
@@ -70,23 +76,28 @@ function renderData(){
                                 placeholder="${package_element.image}">
                         </td>
                         <td>
-                              <select class="form-select select-choices">
+                              <select class="form-select select-choices" id="select-${index}">
                                   <option selected>Open this select menu</option>
-                                  <option value="1">One</option>
-                                  <option value="2">Two</option>
-                                  <option value="3">Three</option>
+                                    ${choice_name}
                                 </select>  
                         </td>
-                        <td><textarea class="textarea choice-description" rows="1" cols="25"  placeholder="Recipient's username"></textarea></td>
-                        <td><input type="text" class="form-control input price" placeholder="Recipient's username"></td>
+                        <td><textarea class="textarea choice-description" rows="1" cols="25"  placeholder=""></textarea></td>
+                        <td><input type="text" class="form-control input price" placeholder=""></td>
                         <td><input class="form-check-input check-package-delete" type="checkbox" value="" ></td>
                     </tr>
                 `
-
-
-                package_list.innerHTML += package_info
-                console.log(package_element.xho)
+                package_list.innerHTML += package_info             
+               
             })
+
+            // Dữ liệu sẽ hiện thị theo select
+            for(let i = 0; i < select_choices.length; i++){
+                select_choices[i].addEventListener('change', ()=>{
+                    let choice_index = select_choices[i].selectedIndex - 1;// Lấy giá trị index của từng select, -1 vì cái đầu tiên là hướng dẫn
+                    input_choiceDesc[i].value = Object.values(dataArray[i].choices)[choice_index].description // Truyền giá trị tương ứng vào description
+                    input_price[i].value = Object.values(dataArray[i].choices)[choice_index].price// Truyền giá trị tương ứng vào price
+                })
+            }
         }
          else {
             alert("Chưa có dữ liệu")
