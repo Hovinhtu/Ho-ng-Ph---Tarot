@@ -21,17 +21,25 @@ th{
 }
 
 .input{
-    border: none;
-    background-color: transparent;
+    /* border: none; */
+    /* background-color: transparent; */
 
 }
 
 .textarea{
-    border: none;
-    background-color: transparent;
+    /* border: none; */
+    /* background-color: transparent; */
     overflow:hidden;
 }
 
 tr td:last-child{
     background-color: transparent;
+}
+
+.hidden{
+    visibility: hidden;
+}
+
+.select-choices{
+    display: flex;
 }
