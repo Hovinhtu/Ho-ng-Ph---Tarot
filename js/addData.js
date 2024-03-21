@@ -27,6 +27,7 @@ let input_package = document.getElementsByClassName("package-name")
 let input_desc = document.getElementsByClassName("package-description")
 let input_image = document.getElementsByClassName("package-url")
 let select_choices = document.getElementsByClassName("select-choices")
+let input_choiceName = document.getElementsByClassName("choice-name")
 let input_choiceDesc = document.getElementsByClassName("choice-description")
 let input_price = document.getElementsByClassName("price")
 let check_package_delete = document.getElementsByClassName("check-package-delete")
@@ -78,6 +79,41 @@ add_button.addEventListener('click',()=>{
                         <td><input class="form-check-input check-package-delete hidden" type="checkbox" value="" ></td>
                     </tr>
                 `
+    console.log(package_list)
     package_list.innerHTML += package_info
+
+    for(let i = 0; i < select_choices.length; i++){
+                
+        select_choices[i].addEventListener('change', ()=>{
+            if(select_choices[i].value == "add"){
+                console.log("Hello" + i)
+                input_choiceName[i].attributes.placeholder.value = "Nhập vào đây"
+                input_choiceDesc[i].attributes.placeholder.value  = "Nhập vào đây"
+                input_price[i].attributes.placeholder.value  = "Nhập vào đây"
+
+                input_choiceName[i].value = ""
+                input_choiceDesc[i].value  = ""
+                input_price[i].value  = ""
+            } else {
+                get(child(ref(db), "EmployeeSet/"))
+                    .then((snapshot)=>{
+                        if(snapshot.exists()){
+                         let dataArray = Object.values(snapshot.val()) // Lỗi hiện tại do vòng for chạy ngay lúc đầu nên khi thêm mới package thì select-choice không được gán sự kiện
+                        
+                         let choice_index = select_choices[i].selectedIndex// Lấy giá trị index của từng select, -1 vì cái đầu tiên là hướng dẫn
+                         input_choiceName[i].value =  Object.values(dataArray[i].choices)[choice_index].name// Truyền giá trị tương ứng vào name
+                         input_choiceDesc[i].value = Object.values(dataArray[i].choices)[choice_index].description // Truyền giá trị tương ứng vào description
+                         input_price[i].value = Object.values(dataArray[i].choices)[choice_index].price// Truyền giá trị tương ứng vào price
+                        }else {
+                        alert("Chưa có dữ liệu")
+                        }
+                     })
+                     .catch((error)=>{
+                     console.log("co loi" + error)
+                         }) 
+                
+            }
+        })
+    }
 
 })

@@ -47,6 +47,8 @@ function renderData(){
                 let choice_name = ``
                 let choice_descripttion = ``
                 let choice_price = ``
+
+                let select_id = "select-"+ index
                     
                // Lấy giá trị trong object tạo thành mảng
                 Object.values(package_element.choices).forEach((choice_element,index)=>{
@@ -83,7 +85,7 @@ function renderData(){
                                 placeholder="${package_element.image}">
                         </td>
                         <td style="display: flex;">
-                              <select class="form-select select-choices" id="select-${index}">
+                              <select class="form-select select-choices" id="${select_id}">
                                     ${choice_select}
                                     <option value="add">Thêm</option>
                                 </select>  
@@ -100,11 +102,14 @@ function renderData(){
                     </tr>
                 `
                 package_list.innerHTML += package_info             
-               
+                
+                // Dữ liệu sẽ hiện thị theo select
+                let select_choi = document.getElementById(select_id)
+        
             })
-            console.log(select_choices)
-            // Dữ liệu sẽ hiện thị theo select
+            
             for(let i = 0; i < select_choices.length; i++){
+                
                 select_choices[i].addEventListener('change', ()=>{
                     console.log(select_choices[i].value == "add")
                     if(select_choices[i].value == "add"){
@@ -112,15 +117,19 @@ function renderData(){
                         input_choiceName[i].attributes.placeholder.value = "Nhập vào đây"
                         input_choiceDesc[i].attributes.placeholder.value  = "Nhập vào đây"
                         input_price[i].attributes.placeholder.value  = "Nhập vào đây"
+
+                        input_choiceName[i].value = ""
+                        input_choiceDesc[i].value  = ""
+                        input_price[i].value  = ""
                     } else {
-                        let choice_index = select_choices[i].selectedIndex - 1// Lấy giá trị index của từng select, -1 vì cái đầu tiên là hướng dẫn
+                        let choice_index = select_choices[i].selectedIndex// Lấy giá trị index của từng select, -1 vì cái đầu tiên là hướng dẫn
                         input_choiceName[i].value =  Object.values(dataArray[i].choices)[choice_index].name// Truyền giá trị tương ứng vào name
                         input_choiceDesc[i].value = Object.values(dataArray[i].choices)[choice_index].description // Truyền giá trị tương ứng vào description
                         input_price[i].value = Object.values(dataArray[i].choices)[choice_index].price// Truyền giá trị tương ứng vào price
                     }
                 })
             }
-        }
+        }// Lỗi hiện tại do vòng for chạy ngay lúc đầu nên khi thêm mới package thì select-choice không được gán sự kiện
          else {
             alert("Chưa có dữ liệu")
         }
