@@ -39,7 +39,7 @@ function renderData(){
     .then((snapshot)=>{
         if(snapshot.exists()){
             let dataArray = Object.values(snapshot.val())
-            console.log(dataArray)
+            
             dataArray.forEach((package_element, index)=>{
 
                 let package_info = ``
@@ -102,18 +102,14 @@ function renderData(){
                     </tr>
                 `
                 package_list.innerHTML += package_info             
-                
-                // Dữ liệu sẽ hiện thị theo select
-                let select_choi = document.getElementById(select_id)
+            
         
             })
             
-            for(let i = 0; i < select_choices.length; i++){
-                
+            for(let i = 0; i < select_choices.length; i++){ 
                 select_choices[i].addEventListener('change', ()=>{
-                    console.log(select_choices[i].value == "add")
+                    console.log("render")
                     if(select_choices[i].value == "add"){
-                        console.log(i)
                         input_choiceName[i].attributes.placeholder.value = "Nhập vào đây"
                         input_choiceDesc[i].attributes.placeholder.value  = "Nhập vào đây"
                         input_price[i].attributes.placeholder.value  = "Nhập vào đây"
@@ -129,7 +125,7 @@ function renderData(){
                     }
                 })
             }
-        }// Lỗi hiện tại do vòng for chạy ngay lúc đầu nên khi thêm mới package thì select-choice không được gán sự kiện
+        }
          else {
             alert("Chưa có dữ liệu")
         }

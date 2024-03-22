@@ -35,10 +35,10 @@ let check_package_delete = document.getElementsByClassName("check-package-delete
 let add_button = document.getElementById("btn-primary")
 
 add_button.addEventListener('click',()=>{
-   let package_info = ``
+   let package_info = document.createElement("tr")
 
-   package_info += `
-                    <tr>
+   package_info.innerHTML = `
+                    
                         <th 
                             scope="row" 
                             class="package-id"
@@ -65,6 +65,7 @@ add_button.addEventListener('click',()=>{
                         </td>
                         <td style="display: flex;">
                               <select class="form-select select-choices" id="select-${input_id.length + 1}">
+                                    <option value="1">1</option>
                                     <option value="add">Thêm</option>
                                 </select>  
                         </td>
@@ -77,43 +78,41 @@ add_button.addEventListener('click',()=>{
                         <td><textarea class="textarea choice-description" rows="1" cols="25"  placeholder="Nhập vào đây"></textarea></td>
                         <td><input type="text" class="form-control input price" placeholder="Nhập vào đây"></td>
                         <td><input class="form-check-input check-package-delete hidden" type="checkbox" value="" ></td>
-                    </tr>
+                    
                 `
-    console.log(package_list)
-    package_list.innerHTML += package_info
-
-    for(let i = 0; i < select_choices.length; i++){
+                package_list.appendChild(package_info)
                 
-        select_choices[i].addEventListener('change', ()=>{
-            if(select_choices[i].value == "add"){
-                console.log("Hello" + i)
-                input_choiceName[i].attributes.placeholder.value = "Nhập vào đây"
-                input_choiceDesc[i].attributes.placeholder.value  = "Nhập vào đây"
-                input_price[i].attributes.placeholder.value  = "Nhập vào đây"
-
-                input_choiceName[i].value = ""
-                input_choiceDesc[i].value  = ""
-                input_price[i].value  = ""
-            } else {
-                get(child(ref(db), "EmployeeSet/"))
-                    .then((snapshot)=>{
-                        if(snapshot.exists()){
-                         let dataArray = Object.values(snapshot.val()) // Lỗi hiện tại do vòng for chạy ngay lúc đầu nên khi thêm mới package thì select-choice không được gán sự kiện
+                for(let i = 0; i < select_choices.length; i++){   
+                    select_choices[i].addEventListener('change', ()=>{
+                        if(select_choices[i].value == "add"){
+                            input_choiceName[i].attributes.placeholder.value = "Nhập vào đây"
+                            input_choiceDesc[i].attributes.placeholder.value  = "Nhập vào đây"
+                            input_price[i].attributes.placeholder.value  = "Nhập vào đây"
+                            
+                            input_choiceName[i].value = ""
+                            input_choiceDesc[i].value  = ""
+                            input_price[i].value  = ""
+                        } else {
+                    get(child(ref(db), "EmployeeSet/"))
+                        .then((snapshot)=>{
+                            if(snapshot.exists()){
+                                let dataArray = Object.values(snapshot.val()) // Lỗi hiện tại do vòng for chạy ngay lúc đầu nên khi thêm mới package thì select-choice không được gán sự kiện
+                                
+                                let choice_index = select_choices[i].selectedIndex// Lấy giá trị index của từng select, -1 vì cái đầu tiên là hướng dẫn
+                                input_choiceName[i].value =  Object.values(dataArray[i].choices)[choice_index].name// Truyền giá trị tương ứng vào name
+                                input_choiceDesc[i].value = Object.values(dataArray[i].choices)[choice_index].description // Truyền giá trị tương ứng vào description
+                                input_price[i].value = Object.values(dataArray[i].choices)[choice_index].price// Truyền giá trị tương ứng vào price
+                                console.log(package_list)
+                            }else {
+                                alert("Chưa có dữ liệu")
+                            }
+                        })
+                        .catch((error)=>{
+                            console.log("co loi" + error)
+                        }) 
                         
-                         let choice_index = select_choices[i].selectedIndex// Lấy giá trị index của từng select, -1 vì cái đầu tiên là hướng dẫn
-                         input_choiceName[i].value =  Object.values(dataArray[i].choices)[choice_index].name// Truyền giá trị tương ứng vào name
-                         input_choiceDesc[i].value = Object.values(dataArray[i].choices)[choice_index].description // Truyền giá trị tương ứng vào description
-                         input_price[i].value = Object.values(dataArray[i].choices)[choice_index].price// Truyền giá trị tương ứng vào price
-                        }else {
-                        alert("Chưa có dữ liệu")
-                        }
-                     })
-                     .catch((error)=>{
-                     console.log("co loi" + error)
-                         }) 
-                
-            }
-        })
-    }
-
-})
+                    }
+                    
+                })
+        }
+    })
