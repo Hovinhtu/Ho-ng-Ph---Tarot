@@ -9,9 +9,10 @@ toggle.addEventListener("click", changeFlag);
 function changeFlag(){
     flag = !flag;
     if (flag){
-        darkMode();
+        darkMode()
+        console.log("Change")
     } else {
-        removeDarkMode();
+        removeDarkMode()
     }
 }
 
@@ -21,11 +22,11 @@ function darkMode(){
     link.id   = cssId;
     link.rel  = 'stylesheet';
     link.type = 'text/css';
-    link.href = 'dark-mode.css';
+    link.href = '/style/dark-mode.css';
     head.appendChild(link);
 
     var changeImg = document.getElementById("img-2");
-    changeImg.src = "./Image/Image-8.png";
+    changeImg.src = "/Image/Image-8.png"
 }
 
 function removeDarkMode(){

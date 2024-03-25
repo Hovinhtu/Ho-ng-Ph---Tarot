@@ -17,7 +17,7 @@
  // Initialize Firebase
  const app = initializeApp(firebaseConfig);
 
-import {getDatabase, ref, set, remove, get, child, push, update} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+import {getDatabase, ref, set, child, push, update} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
 const db = getDatabase();
 
@@ -30,24 +30,26 @@ let select_choices = document.getElementsByClassName("select-choices")
 let input_choiceName = document.getElementsByClassName("choice-name")
 let input_choiceDesc = document.getElementsByClassName("choice-description")
 let input_price = document.getElementsByClassName("price")
-let check_package_delete = document.getElementsByClassName("check-package-delete")
 
 let add_button = document.getElementById("btn-primary")
+let deployBtn = document.getElementById('btn-success')
 
 add_button.addEventListener('click',()=>{
    let package_info = document.createElement("tr")
-
+   let package_index = input_id.length + 1
    package_info.innerHTML = `
                     
                         <th 
                             scope="row" 
                             class="package-id"
-                        >${input_id.length + 1}</th>
+                        >${package_index}</th>
                         <td>
                             <input 
                                 type="text" 
                                 class="form-control input package-name" 
-                                placeholder="Nhập vào đây">   
+                                placeholder="Nhập vào đây"
+         
+                                >   
                         </td>
                         <td>
                             <textarea 
@@ -61,10 +63,11 @@ add_button.addEventListener('click',()=>{
                             <input 
                                 type="url" 
                                 class="form-control input package-url" 
-                                placeholder="Nhập vào đây">
+                                placeholder="Nhập vào đây"
+                                >
                         </td>
                         <td style="display: flex;">
-                              <select class="form-select select-choices" id="select-${input_id.length + 1}">
+                              <select class="form-select select-choices" id="select-${package_index}">
                                     <option value="1">1</option>
                                     <option value="add">Thêm</option>
                                 </select>  
@@ -73,16 +76,28 @@ add_button.addEventListener('click',()=>{
                             <input 
                                 type="text" 
                                 class="form-control input choice-name" 
-                                placeholder="Nhập vào đây">
+                                placeholder="Nhập vào đây"
+                                >
                         </td>
-                        <td><textarea class="textarea choice-description" rows="1" cols="25"  placeholder="Nhập vào đây"></textarea></td>
-                        <td><input type="text" class="form-control input price" placeholder="Nhập vào đây"></td>
+                        <td>
+                            <textarea 
+                                class="textarea choice-description" 
+                                rows="1" 
+                                cols="25"></textarea>
+                        </td>
+                        <td>
+                            <input 
+                                type="text" 
+                                class="form-control input price" 
+                                placeholder="Nhập vào đây"
+                                >
+                        </td>
                         <td><input class="form-check-input check-package-delete hidden" type="checkbox" value="" ></td>
                     
                 `
                 package_list.appendChild(package_info)
-                
-                for(let i = 0; i < select_choices.length; i++){   
+
+                for(let i = 0; i < input_id.length; i++){   
                     select_choices[i].addEventListener('change', ()=>{
                         if(select_choices[i].value == "add"){
                             input_choiceName[i].attributes.placeholder.value = "Nhập vào đây"
@@ -92,27 +107,55 @@ add_button.addEventListener('click',()=>{
                             input_choiceName[i].value = ""
                             input_choiceDesc[i].value  = ""
                             input_price[i].value  = ""
-                        } else {
-                    get(child(ref(db), "EmployeeSet/"))
-                        .then((snapshot)=>{
-                            if(snapshot.exists()){
-                                let dataArray = Object.values(snapshot.val()) // Lỗi hiện tại do vòng for chạy ngay lúc đầu nên khi thêm mới package thì select-choice không được gán sự kiện
-                                
-                                let choice_index = select_choices[i].selectedIndex// Lấy giá trị index của từng select, -1 vì cái đầu tiên là hướng dẫn
-                                input_choiceName[i].value =  Object.values(dataArray[i].choices)[choice_index].name// Truyền giá trị tương ứng vào name
-                                input_choiceDesc[i].value = Object.values(dataArray[i].choices)[choice_index].description // Truyền giá trị tương ứng vào description
-                                input_price[i].value = Object.values(dataArray[i].choices)[choice_index].price// Truyền giá trị tương ứng vào price
-                                console.log(package_list)
-                            }else {
-                                alert("Chưa có dữ liệu")
-                            }
-                        })
-                        .catch((error)=>{
-                            console.log("co loi" + error)
-                        }) 
-                        
-                    }
-                    
+                            deployBtn.addEventListener("click",()=>{
+                                addChoiceData(i+1, input_choiceName[i].value, input_choiceDesc[i].value, input_price[i].value)    
+                            })
+                        } 
+                       
                 })
-        }
+               
+                }
+                deployBtn.addEventListener("click",()=>{
+                    let i = package_index - 1
+                    addData(package_index, input_package[i].value, input_desc[i].value, input_image[i].value)
+                    addChoiceData(package_index, input_choiceName[i].value, input_choiceDesc[i].value, input_price[i].value)    
+                })
+
+
+
     })
+
+    function addData(id, name, description, image){
+        set(ref(db, 'EmployeeSet/' + id),{
+            description: description,
+            image: image,
+            name: name,
+            id: id
+        })
+        .then(()=>{
+            alert("Data added successfully")
+        })
+        .catch((error)=>{
+            alert("Unsuccessfully");
+            console.log(error)
+        })
+    
+        
+    }
+    
+
+    function addChoiceData(id, choiceName, choiceDescription, choicePrice){
+        const newKey = push(child(ref(db), 'EmployeeSet/' + id + "/choices")).key;
+        update(ref(db, 'EmployeeSet/' + id + "/choices/" + newKey),{
+          name: choiceName, 
+          description: choiceDescription,
+          price: choicePrice
+        })
+        .then(()=>{
+            alert("Data pushed successfully")
+        })
+        .catch((error)=>{
+            alert("Unsuccessfully");
+            console.log(error)
+        })
+    }

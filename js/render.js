@@ -30,7 +30,7 @@ let select_choices = document.getElementsByClassName("select-choices")
 let input_choiceName = document.getElementsByClassName("choice-name")
 let input_choiceDesc = document.getElementsByClassName("choice-description")
 let input_price = document.getElementsByClassName("price")
-let check_package_delete = document.getElementsByClassName("check-package-delete")
+let deployBtn = document.getElementById('btn-success')
 
 renderData()
 
@@ -53,9 +53,11 @@ function renderData(){
                // Lấy giá trị trong object tạo thành mảng
                 Object.values(package_element.choices).forEach((choice_element,index)=>{
                     choice_select += `<option value="${index + 1}">${index + 1}</option>`
-                    choice_name = choice_element.name
-                    choice_descripttion = choice_element.description
-                    choice_price = choice_element.price
+                    if(index == 0){
+                        choice_name = choice_element.name
+                        choice_descripttion = choice_element.description
+                        choice_price = choice_element.price
+                    } 
                 })
 
                 package_info += `
@@ -68,21 +70,23 @@ function renderData(){
                             <input 
                                 type="text" 
                                 class="form-control input package-name" 
-                                placeholder="${package_element.name}">   
+                                placeholder="" value="${package_element.name}">   
                         </td>
                         <td>
                             <textarea 
                                 class="textarea package-description" 
                                 rows="1" 
                                 cols="25" 
-                                placeholder="${package_element.description}">
+                    
+                                >${package_element.description}
                             </textarea>
                         </td>
                         <td>
                             <input 
                                 type="url" 
                                 class="form-control input package-url" 
-                                placeholder="${package_element.image}">
+                                placeholder=""
+                                value="${package_element.image}">
                         </td>
                         <td style="display: flex;">
                               <select class="form-select select-choices" id="${select_id}">
@@ -94,10 +98,19 @@ function renderData(){
                             <input 
                                 type="text" 
                                 class="form-control input choice-name" 
-                                placeholder="${choice_name}">
+                                placeholder=""
+                                value="${choice_name}">
                         </td>
-                        <td><textarea class="textarea choice-description" rows="1" cols="25"  placeholder="${choice_descripttion}"></textarea></td>
-                        <td><input type="text" class="form-control input price" placeholder="${choice_price}"></td>
+                        <td><textarea class="textarea choice-description" rows="1" cols="25" >${choice_descripttion}</textarea></td>
+                        <td>
+                            <input 
+                                type="text" 
+                                class="form-control input price" 
+                                placeholder=""
+                                value="${choice_price}"
+                                >
+                         
+                        </td>
                         <td><input class="form-check-input check-package-delete hidden" type="checkbox" value="" ></td>
                     </tr>
                 `
@@ -108,15 +121,17 @@ function renderData(){
             
             for(let i = 0; i < select_choices.length; i++){ 
                 select_choices[i].addEventListener('change', ()=>{
-                    console.log("render")
                     if(select_choices[i].value == "add"){
                         input_choiceName[i].attributes.placeholder.value = "Nhập vào đây"
-                        input_choiceDesc[i].attributes.placeholder.value  = "Nhập vào đây"
                         input_price[i].attributes.placeholder.value  = "Nhập vào đây"
 
                         input_choiceName[i].value = ""
                         input_choiceDesc[i].value  = ""
                         input_price[i].value  = ""
+
+                        deployBtn.addEventListener("click",()=>{
+                            addChoiceData(i+1,input_choiceName[i].value,input_choiceDesc[i].value,input_price[i].value)
+                        })
                     } else {
                         let choice_index = select_choices[i].selectedIndex// Lấy giá trị index của từng select, -1 vì cái đầu tiên là hướng dẫn
                         input_choiceName[i].value =  Object.values(dataArray[i].choices)[choice_index].name// Truyền giá trị tương ứng vào name
@@ -133,4 +148,19 @@ function renderData(){
     .catch((error)=>{
         console.log("co loi" + error)
     }) 
+}
+
+function addChoiceData(id, choiceName, choiceDescription, choicePrice){
+    push(ref(db, 'EmployeeSet/' + id + "/choices/"),{
+      name: choiceName, 
+      description: choiceDescription,
+      price: choicePrice
+    })
+    .then(()=>{
+        alert("Data pushed successfully")
+    })
+    .catch((error)=>{
+        alert("Unsuccessfully");
+        console.log(error)
+    })
 }
