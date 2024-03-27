@@ -30,9 +30,14 @@ let select_choices = document.getElementsByClassName("select-choices")
 let input_choiceName = document.getElementsByClassName("choice-name")
 let input_choiceDesc = document.getElementsByClassName("choice-description")
 let input_price = document.getElementsByClassName("price")
-let deployBtn = document.getElementById('btn-success')
 
-renderData()
+let deployBtn = document.getElementById('btn-success')
+let updateBtn = document.getElementById('btn-warning')
+let render_active = false
+let update_active = false
+
+updateIdData()
+
 
 function renderData(){
     get(child(ref(db), "EmployeeSet/"))
@@ -65,7 +70,7 @@ function renderData(){
                         <th 
                             scope="row" 
                             class="package-id"
-                        >${index + 1}</th>
+                        >${package_element.id}</th>
                         <td>
                             <input 
                                 type="text" 
@@ -129,8 +134,14 @@ function renderData(){
                         input_choiceDesc[i].value  = ""
                         input_price[i].value  = ""
 
+                        render_active = true
+
                         deployBtn.addEventListener("click",()=>{
-                            addChoiceData(i+1,input_choiceName[i].value,input_choiceDesc[i].value,input_price[i].value)
+                            if(render_active){
+                                addChoiceData(i + 1,input_choiceName[i].value,input_choiceDesc[i].value,input_price[i].value)
+                                render_active = false
+                                location.reload()
+                            }
                         })
                     } else {
                         let choice_index = select_choices[i].selectedIndex// Lấy giá trị index của từng select, -1 vì cái đầu tiên là hướng dẫn
@@ -139,7 +150,21 @@ function renderData(){
                         input_price[i].value = Object.values(dataArray[i].choices)[choice_index].price// Truyền giá trị tương ứng vào price
                     }
                 })
+
+
+                updateBtn.addEventListener('click',()=>{ 
+                    updateData(i)
+                    update_active = true
+                })
             }
+
+            if(update_active){
+                update_active = false
+                location.reload()
+            }
+           
+          
+            
         }
          else {
             alert("Chưa có dữ liệu")
@@ -163,4 +188,89 @@ function addChoiceData(id, choiceName, choiceDescription, choicePrice){
         alert("Unsuccessfully");
         console.log(error)
     })
+}
+
+
+function updateData(index){
+    update(ref(db, 'EmployeeSet/' + (index + 1) + '/'),{
+        description: input_desc[index].value,
+        image: input_image[index].value,
+        name:input_package[index].value,
+    })
+    .then(()=>{
+        console.log("Data big updated successfully")
+    })
+    .catch((error)=>{
+        alert("Unsuccessfully");
+        console.log(error)
+    })
+
+    get(child(ref(db), "EmployeeSet/" + (index + 1) + "/choices/"))
+    .then((snapshot)=>{
+        if(snapshot.exists()){
+            let select_choices_key= Object.keys(snapshot.val())
+            console.log(select_choices[index].selectedIndex)
+                update(ref(db, 'EmployeeSet/' + (index + 1) + "/choices/" + select_choices_key[select_choices[index].selectedIndex]),{            
+                    name: input_choiceName[index].value, 
+                    description: input_choiceDesc[index].value, 
+                    price:[input_price[index].value]
+                })
+                    .then(()=>{
+                        console.log("Data updated successfully")
+                    })
+                    .catch((error)=>{
+                        alert("Unsuccessfully");
+                        console.log(error)
+                    })
+            }
+         else {
+            console.log("Du lieu khong ton tai")
+        }
+    })
+    .catch((error)=>{
+        console.log("co loi" + error)
+    }) 
+
+    
+}
+
+
+function updateIdData(){
+    get(child(ref(db), "EmployeeSet/"))
+    .then((snapshot)=>{
+        if(snapshot.exists()){
+
+            let arrayOfKey = Object.keys(snapshot.val())
+            let dataObject = snapshot.val()
+            let newDataObject = []
+            console.log(arrayOfKey)
+            console.log(dataObject)
+
+            for(let i = 0; i < arrayOfKey.length; i++){
+                newDataObject.push(dataObject[arrayOfKey[i]])
+                newDataObject[i].id = i + 1
+                // delete dataObject[arrayOfKey[i]]
+                // console.log(dataObject)
+            }
+            console.log(newDataObject)
+            set(ref(db, 'EmployeeSet/'),newDataObject)
+            .then(()=>{
+                alert("Data updated successfully")
+            })
+            .catch((error)=>{
+                alert("Unsuccessfully");
+                console.log(error)
+            })
+
+            renderData()
+        }
+         else {
+            alert("Chưa có dữ liệu")
+        }
+    })
+    .catch((error)=>{
+        console.log("co loi" + error)
+    })
+
+    
 }

@@ -17,7 +17,7 @@
  // Initialize Firebase
  const app = initializeApp(firebaseConfig);
 
-import {getDatabase, ref, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+import {getDatabase, ref, remove, get, child, set } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
 const db = getDatabase();
 
@@ -38,19 +38,32 @@ deployBtn.addEventListener('click',()=>{
     for(let i = 0; i < check_package_delete.length; i++){
         if(check_package_delete[i].checked){
             deleteData(i)
-            location.reload()
         }
     }
+    //location.reload()
 })
 
 function deleteData(index){
-    remove(ref(db, 'EmployeeSet/' + (index + 1)))
-    .then(()=>{
-        alert("Data deleted successfully")
+    get(child(ref(db), "EmployeeSet/"))
+    .then((snapshot)=>{
+        if(snapshot.exists()){
+            let arrayOfKey = Object.keys(snapshot.val())
+            remove(ref(db, 'EmployeeSet/' + arrayOfKey[index]))
+            .then(()=>{
+                alert("Data deleted successfully")
+            })
+            .catch((error)=>{
+                alert("Unsuccessfully");
+                console.log(error)
+            })
+        }
+         else {
+            console.log("Du lieu khong ton tai")
+        }
     })
     .catch((error)=>{
-        alert("Unsuccessfully");
-        console.log(error)
-    })
+        console.log("co loi" + error)
+    }) 
 
+    
 }

@@ -33,10 +33,12 @@ let input_price = document.getElementsByClassName("price")
 
 let add_button = document.getElementById("btn-primary")
 let deployBtn = document.getElementById('btn-success')
+let add_active = false
 
 add_button.addEventListener('click',()=>{
    let package_info = document.createElement("tr")
    let package_index = input_id.length + 1
+   add_active = true
    package_info.innerHTML = `
                     
                         <th 
@@ -108,7 +110,9 @@ add_button.addEventListener('click',()=>{
                             input_choiceDesc[i].value  = ""
                             input_price[i].value  = ""
                             deployBtn.addEventListener("click",()=>{
-                                addChoiceData(i+1, input_choiceName[i].value, input_choiceDesc[i].value, input_price[i].value)    
+                                addChoiceData(i+1, input_choiceName[i].value, input_choiceDesc[i].value, input_price[i].value)
+                                console.log("Hello") 
+                                location.reload()   
                             })
                         } 
                        
@@ -116,9 +120,13 @@ add_button.addEventListener('click',()=>{
                
                 }
                 deployBtn.addEventListener("click",()=>{
-                    let i = package_index - 1
-                    addData(package_index, input_package[i].value, input_desc[i].value, input_image[i].value)
-                    addChoiceData(package_index, input_choiceName[i].value, input_choiceDesc[i].value, input_price[i].value)    
+                    if(add_active){
+                        let i = package_index - 1
+                        addData(package_index, input_package[i].value, input_desc[i].value, input_image[i].value)
+                        addChoiceData(package_index, input_choiceName[i].value, input_choiceDesc[i].value, input_price[i].value) 
+                        add_active = false
+                        //location.reload()
+                    }
                 })
 
 
@@ -145,8 +153,7 @@ add_button.addEventListener('click',()=>{
     
 
     function addChoiceData(id, choiceName, choiceDescription, choicePrice){
-        const newKey = push(child(ref(db), 'EmployeeSet/' + id + "/choices")).key;
-        update(ref(db, 'EmployeeSet/' + id + "/choices/" + newKey),{
+        push(ref(db, 'EmployeeSet/' + id + "/choices/"),{
           name: choiceName, 
           description: choiceDescription,
           price: choicePrice
