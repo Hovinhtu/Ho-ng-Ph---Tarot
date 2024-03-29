@@ -1,0 +1,101 @@
+.container{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.payment-detail{
+    width: 50%;
+}
+
+.shipping-detail{
+    text-transform: uppercase;
+    position: relative;
+    margin-top: 20px;
+}
+
+.under::after{
+    content: "";
+    position: absolute;
+    width: 450px;
+    height: 1px;
+    background-color: #000000;
+    left: 0;
+    bottom: -10px;
+}
+
+.name-custom{
+ margin-top: 30px;   
+}
+
+.name-custom, .gmail-custom{
+    font-weight: bold;
+}
+
+.payment{
+    margin-top: 30px;
+    position: relative;
+    text-transform: uppercase;
+}
+
+.form-container{
+    margin-top: 20px;
+    margin-left: -3px;
+}
+
+label{
+    font-size: 12px;
+}
+
+.btn-style{
+    width: 100%;
+}
+
+.order{
+    width: 50%;
+    padding-left: 160px;
+}
+
+.order-span{
+    font-size: 12px;
+    margin-left: 15px;
+}
+
+.item-container{
+    width: 100%;
+    height: 300px;
+    overflow: auto; /* Sử dụng thanh cuộn cho container */
+}
+.item{
+    display: flex;
+    justify-content: space-between;
+    width: 88%;
+    position: relative;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.item p{
+    margin: 0;
+}
+
+.item-title p{
+    margin: 0;
+    
+}
+
+.price-table{
+    margin-top: 20px;
+}
+
+td{
+    font-weight: bold;
+}
+.right-td {
+    padding-left: 250px; /* Tăng padding để tạo khoảng cách giữa các cột */
+    text-align: left;
+}
+
+td p {
+    margin-bottom: 10px;
+}

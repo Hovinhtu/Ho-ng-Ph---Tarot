@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/fontAwesome/Font-Awesome-640/css/all.css">
+    <link rel="stylesheet" href="./bootstrap-5.3.3/bootstrap-5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style/global.css">
+    <link rel="stylesheet" href="/style/checkout.css">
+    <title>Checkout</title>
+</head>
+<body>
+    <img class="img-background" src="/Image/Image-7.png" alt="img-here">
+    <header class="header-container" style="display: flex; justify-content: center;">
+        <h1 class="header-iconText">
+            <span style="color: #ffffff;">tarot</span> 
+            <span style="color: #ffa0dc;">&</span>
+            <span style="color: #df73b7;">spell</span> 
+        </h1>
+    </header>
+    <div class="container">
+        <div class="payment-detail">
+            <h2 class="title-payment">Checkout</h2>
+            <p class="shipping-detail under">Shipping details</p>
+            <p class="name-custom" id="name-custom">Hello Mr.A</p>
+            <p class="gmail-custom" id="gmail-custom">MrA@gmail.com</p>
+            <p class="payment under">Payment details</p>
+
+            <form class="row g-3 needs-validation form-container" novalidate>
+                <div class="row g-2">
+
+                    <div class="col-md-8">
+                        <label for="name" class="form-label">NAME ON CARD</label>
+                        <input type="text" class="form-control" id="name" value="Mark" required>
+                        <div class="valid-feedback">
+                          Good!
+                        </div>
+                    </div>
+                  
+                </div>
+               
+                <div class="row g-2">
+                    
+                    <div class="col-md-8">
+                        <label for="name" class="form-label">CARD NUMBER</label>
+                        <input type="text" class="form-control" id="name" value="432534253253" required>
+                        <div class="valid-feedback">
+                          Good!
+                        </div>
+                    </div>
+                  
+                </div>
+
+                <div class="row g-2">
+                    
+                    <div class="col-md-4">
+                        <label for="name" class="form-label">VALID THROUGH</label>
+                        <input type="text" class="form-control" id="name" value="06/21" required>
+                        <div class="valid-feedback">
+                          Good!
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="name" class="form-label">CVC CODE</label>
+                        <input type="text" class="form-control" id="name" value="183" required>
+                        <div class="valid-feedback">
+                          Good!
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-8">
+                  <button class="btn btn-primary btn-style" type="submit">PURCHASE <span id="cost-value">$37</span> SEK</button>
+                </div>
+            </form>
+        </div>
+        <div class="order">
+            <p class="shipping-detail under">Your order <span class="order-span">EDIT SHOPPING BAG</span></p>
+            <div class="item-container">
+                <div class="item under">
+                    <div class="item-title">
+                        <p class="name-item">Gói 150K</p>
+                        <p class="num-sell">+1000 đã bán</p>
+                    </div>
+                    <div class="count">
+                        <button class="btn btn-light minus">-</button>
+                        <button class="btn btn-primary count-num">2</button>
+                        <button class="btn btn-light add">+</button>
+                    </div>
+                    <p class="total-priceItem">179 SEK</p>
+                </div>
+                <div class="item under">
+                    <div class="item-title">
+                        <p class="name-item">Gói 150K</p>
+                        <p class="num-sell">+1000 đã bán</p>
+                    </div>
+                    <div class="count">
+                        <button class="btn btn-light minus">-</button>
+                        <button class="btn btn-primary count-num">2</button>
+                        <button class="btn btn-light add">+</button>
+                    </div>
+                    <p class="total-priceItem">179 SEK</p>
+                </div>
+                
+            </div>
+            <table class="price-table"> 
+                <tr>
+                    <td>
+                        <p class="subtotal">Giá trị đơn hàng</p>
+                        <p class="shipping">Shipping</p>
+                        <p class="total">Tổng</p>
+                    </td>
+                    <td class="right-td">
+                        <p class="subtotal-price">179SEK</p>
+                        <p class="shipping-price">179SEK</p>
+                        <p class="total-price">179SEK</p>
+                    </td>
+                </tr>
+            </table>
+            <button class="btn btn-primary" style="margin-left: 35%;" > ADD GIFT CODE</button>
+        </div>
+    </div>
+</body>
+<script src="./bootstrap-5.3.3/bootstrap-5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/checkout.js"></script>
+</html>
