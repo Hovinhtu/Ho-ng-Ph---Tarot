@@ -36,3 +36,10 @@ function removeDarkMode(){
     var changeImg = document.getElementById("img-2");
     changeImg.src = "./Image/Image-2.png";
 }
+
+document.getElementById('homeLink').addEventListener('click', function(event) {
+    // Prevent default behavior (opening index.html)
+    event.preventDefault();
+    // Redirect to the desired URL without showing index.html
+    window.location.href = "/";
+});
