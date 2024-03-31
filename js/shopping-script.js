@@ -22,8 +22,8 @@ for (var item of dataShopping) {
                 ${renderDescription()}
                 ${renderCostList()}
                 <div class="cartBuy">
-                    <button class="button cartBtn">Thêm vào giỏ hàng</button>
-                    <button class="button cartBtn">Mua ngay</button>
+                    <button class="button cartBtn addToCart">Thêm vào giỏ hàng</button>
+                    <button class="button cartBtn buyNow">Mua ngay</button>
                 </div>
             </div>               
         </div>
@@ -91,19 +91,21 @@ var countItemArray = [0];
 Array.from(listBtn).forEach((element, index) => {
         arrayId[index] = element.classList[0];
 })
-
+console.log(arrayId)
 for(let i = 0; i < arrayId.length-1; i++){
     if(arrayId[i] != arrayId[i + 1]){
         countItemArray.push(i+1);
     }
 }
-
+console.log(countItemArray)
 for(let i = 0; i < countItemArray.length; i++){
     listBtn[countItemArray[i]].classList.add("activeBtn")
     listText[countItemArray[i]].classList.remove("hidden")
     listCost[countItemArray[i]].classList.remove("hidden")
 }
 
+//Duyệt qua tất cả các nút, những nút nào có id giống nhau khi có sự kiện
+//Nút có sự kiện sẽ active các nút còn lại sẽ deactive
 Array.from(listBtn).forEach((element, index) => {
     element.addEventListener("click", function () {
     console.log(element.classList[0])
@@ -130,3 +132,42 @@ Array.from(listCostStyle).forEach((element,index)=>{
         element.classList.add("active")
     })
 })
+
+// Xử lý khi mua hàng
+
+let addToCartListBtn = document.getElementsByClassName("addToCart")
+let buyNowListBtn = document.getElementsByClassName("buyNow")
+let newCountItem = countItemArray
+
+let data = [{
+    name: "Gói A",
+    price: "220"
+}]
+newCountItem.push(arrayId.length)
+
+for(let i = 0; i < addToCartListBtn.length; i++){
+    addToCartListBtn[i].addEventListener('click',()=>{
+        for(let j = newCountItem[i]; j < newCountItem[i+1]; j++){
+            if(listBtn[j].classList.contains("activeBtn")){
+                console.log(listBtn[j].textContent)
+                if(listBtn[j].parentNode.parentNode.querySelector(".active")){
+                    console.log(listBtn[j].parentNode.parentNode.querySelector(".active").textContent)
+                } else {
+                    console.log(listBtn[j].classList[0])
+                }
+                localStorage.setItem(listBtn[j].textContent,listBtn[j].parentNode.parentNode.querySelector(".active").textContent)
+                data.push({name: listBtn[j].textContent, price:listBtn[j].parentNode.parentNode.querySelector(".active").textContent})
+                console.log(data)
+            }
+        }
+    })
+}
+
+export default data
+let btnBuyCart = document.getElementById("btnBuyCart")
+
+btnBuyCart.addEventListener('click',()=>{
+    data += data
+    console.log(data)
+})
+
