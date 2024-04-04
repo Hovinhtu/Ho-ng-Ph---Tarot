@@ -99,3 +99,15 @@ td{
 td p {
     margin-bottom: 10px;
 }
+
+.modal-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.modal-body img{
+    width: 400px;
+    height: 500px;
+
+}

@@ -65,7 +65,7 @@ function renderCostList(){
     for(let pri of item.choices){
         if(pri.price != []){
             for(let i = 0; i < pri.price.length; i++){
-                costLi += `<li class="cost-style">${pri.price[i]}</li>`
+                costLi += `<li class="cost-style">${pri.price[i] + `.000`} <span>đ</span></li>`
             }
         }        
         costLists += ` <div class="cost hidden">
@@ -139,31 +139,20 @@ let addToCartListBtn = document.getElementsByClassName("addToCart")
 let buyNowListBtn = document.getElementsByClassName("buyNow")
 let newCountItem = countItemArray
 
-let data = [{
-    name: "Gói A",
-    price: "220"
-}]
 newCountItem.push(arrayId.length)
 
 for(let i = 0; i < addToCartListBtn.length; i++){
     addToCartListBtn[i].addEventListener('click',()=>{
         for(let j = newCountItem[i]; j < newCountItem[i+1]; j++){
             if(listBtn[j].classList.contains("activeBtn")){
-                console.log(listBtn[j].textContent)
-                if(listBtn[j].parentNode.parentNode.querySelector(".active")){
-                    console.log(listBtn[j].parentNode.parentNode.querySelector(".active").textContent)
-                } else {
-                    console.log(listBtn[j].classList[0])
-                }
-                localStorage.setItem(listBtn[j].textContent,listBtn[j].parentNode.parentNode.querySelector(".active").textContent)
-                data.push({name: listBtn[j].textContent, price:listBtn[j].parentNode.parentNode.querySelector(".active").textContent})
-                console.log(data)
+                let value = listBtn[j].parentNode.parentNode.querySelector(".active")!= null ? listBtn[j].parentNode.parentNode.querySelector(".active").textContent: listBtn[j].classList[0]
+                value = value.slice(0, 3)
+                localStorage.setItem(listBtn[j].textContent, value)  
             }
         }
     })
 }
 
-export default data
 let btnBuyCart = document.getElementById("btnBuyCart")
 
 btnBuyCart.addEventListener('click',()=>{

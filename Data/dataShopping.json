@@ -10,12 +10,12 @@
                 {
                     "name":"Gói A",
                     "description": "Đặt câu hỏi không giới hạn vấn đề: <br> - 5 câu: 222.000đ <br> - 8 câu: 333.000đ <br> - 45 phút ( không giới hạn câu hỏi ): 368.000đ ",
-                    "price":["220.000đ","333.000đ","368.000đ"]
+                    "price":["220","333","368"]
                 },
                 {
                     "name":"Gói B",
                     "description":"Dự đoán những sự kiện trong vấn đề công việc, tiền bạc, gia đình, tình cảm, học tập, sức khỏe, 4 sự kiện nổi bật nhất, vấn đề ảnh hưởng đến bạn và những sự kiện xung quanh bản thân, cuộc sống kèm lời khuyên.",
-                    "price":["222.000đ","220.000đ"]
+                    "price":["222","220"]
                 }
             ]
     },

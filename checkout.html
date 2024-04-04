@@ -71,13 +71,13 @@
                 </div>
     
                 <div class="col-8">
-                  <button class="btn btn-primary btn-style" type="submit">PURCHASE <span id="cost-value">$37</span> SEK</button>
+                  <button class="btn btn-primary btn-style" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">PURCHASE <span id="cost-value">$37</span> SEK</button>
                 </div>
             </form>
         </div>
         <div class="order">
             <p class="shipping-detail under">Your order <span class="order-span">EDIT SHOPPING BAG</span></p>
-            <div class="item-container">
+            <div class="item-container" id="item-container">
                 <div class="item under">
                     <div class="item-title">
                         <p class="name-item">Gói 150K</p>
@@ -90,18 +90,7 @@
                     </div>
                     <p class="total-priceItem">179 SEK</p>
                 </div>
-                <div class="item under">
-                    <div class="item-title">
-                        <p class="name-item">Gói 150K</p>
-                        <p class="num-sell">+1000 đã bán</p>
-                    </div>
-                    <div class="count">
-                        <button class="btn btn-light minus">-</button>
-                        <button class="btn btn-primary count-num">2</button>
-                        <button class="btn btn-light add">+</button>
-                    </div>
-                    <p class="total-priceItem">179 SEK</p>
-                </div>
+               
                 
             </div>
             <table class="price-table"> 
@@ -112,15 +101,36 @@
                         <p class="total">Tổng</p>
                     </td>
                     <td class="right-td">
-                        <p class="subtotal-price">179SEK</p>
-                        <p class="shipping-price">179SEK</p>
-                        <p class="total-price">179SEK</p>
+                        <p class="subtotal-price" id = "subtotal-price">179SEK</p>
+                        <p class="shipping-price" id = "shipping-price">17.900 đ</p>
+                        <p class="total-price" id="total-price">179SEK</p>
                     </td>
                 </tr>
             </table>
             <button class="btn btn-primary" style="margin-left: 35%;" > ADD GIFT CODE</button>
         </div>
     </div>
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Thông tin thanh toán</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <img src="/Image/checkout.jpg" alt="img-here">
+            <label for=""> Số tiền cần thanh toán</label>
+            <p class="total-price" id="total-price-modal">179SEK</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 <script src="./bootstrap-5.3.3/bootstrap-5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script type="module" src="/js/checkout.js"></script>
