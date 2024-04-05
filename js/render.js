@@ -131,6 +131,7 @@ function renderData(){
             for(let i = 0; i < select_choices.length; i++){ 
                 select_choices[i].addEventListener('change', ()=>{
                     if(select_choices[i].value == "add"){
+                        console.log("Hello")
                         input_choiceName[i].attributes.placeholder.value = "Nhập vào đây"
                         input_price[i].attributes.placeholder.value  = "Nhập vào đây"
 
@@ -142,7 +143,7 @@ function renderData(){
 
                         deployBtn.addEventListener("click",()=>{
                             if(render_active){
-                                addChoiceData(i + 1,input_choiceName[i].value,input_choiceDesc[i].value,input_price[i].value)
+                                addChoiceData(i,input_choiceName[i].value,input_choiceDesc[i].value,input_price[i].value)
                                 render_active = false
                                 location.reload()
                             }
@@ -194,7 +195,7 @@ function addChoiceData(id, choiceName, choiceDescription, choicePrice){
 
 // Hàm dùng để update dữ liệu khi người dùng thay đổi những dữ liệu đã có sẵn
 function updateData(index){
-    update(ref(db, 'EmployeeSet/' + (index + 1) + '/'),{
+    update(ref(db, 'EmployeeSet/' + index + '/'),{
         description: input_desc[index].value,
         image: input_image[index].value,
         name:input_package[index].value,
@@ -207,12 +208,12 @@ function updateData(index){
         console.log(error)
     })
 
-    get(child(ref(db), "EmployeeSet/" + (index + 1) + "/choices/"))
+    get(child(ref(db), "EmployeeSet/" + index + "/choices/"))
     .then((snapshot)=>{
         if(snapshot.exists()){
             let select_choices_key= Object.keys(snapshot.val())
             console.log(select_choices[index].selectedIndex)
-                update(ref(db, 'EmployeeSet/' + (index + 1) + "/choices/" + select_choices_key[select_choices[index].selectedIndex]),{            
+                update(ref(db, 'EmployeeSet/' + index + "/choices/" + select_choices_key[select_choices[index].selectedIndex]),{            
                     name: input_choiceName[index].value, 
                     description: input_choiceDesc[index].value, 
                     price:[input_price[index].value]

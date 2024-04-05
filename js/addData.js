@@ -110,7 +110,7 @@ add_button.addEventListener('click',()=>{
                             input_choiceDesc[i].value  = ""
                             input_price[i].value  = ""
                             deployBtn.addEventListener("click",()=>{
-                                addChoiceData(i+1, input_choiceName[i].value, input_choiceDesc[i].value, input_price[i].value)
+                                addChoiceData(i, input_choiceName[i].value, input_choiceDesc[i].value, input_price[i].value)
                                 console.log("Hello") 
                                 location.reload()   
                             })
