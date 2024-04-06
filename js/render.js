@@ -216,7 +216,7 @@ function updateData(index){
                 update(ref(db, 'EmployeeSet/' + index + "/choices/" + select_choices_key[select_choices[index].selectedIndex]),{            
                     name: input_choiceName[index].value, 
                     description: input_choiceDesc[index].value, 
-                    price:[input_price[index].value]
+                    price:input_price[index].value
                 })
                     .then(()=>{
                         console.log("Data updated successfully")
