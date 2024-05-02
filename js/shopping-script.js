@@ -3,6 +3,7 @@ import dataShopping from "../Data/dataShopping.json" assert {type: "json"};
 // fetch("./data.json")
 //     .then((response)=>response.json())
 //     .then((json) => console.log(json));
+
  // Import the functions you need from the SDKs you need
  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
  // TODO: Add SDKs for Firebase products that you want to use
@@ -21,7 +22,6 @@ import dataShopping from "../Data/dataShopping.json" assert {type: "json"};
 
  // Initialize Firebase
  const app = initializeApp(firebaseConfig);
-
 import {getDatabase, ref, set, get, child, push, update} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
 const db = getDatabase();

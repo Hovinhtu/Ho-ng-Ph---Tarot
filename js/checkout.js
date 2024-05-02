@@ -4,6 +4,9 @@ const keys = Object.keys(localStorage);
 let order = ``
 // Kiểm tra từng khóa và lấy giá trị tương ứng
 keys.forEach(key => {
+    if(key.slice(0,8)=="firebase"){
+      localStorage.removeItem(key)
+    }
     const value = localStorage.getItem(key)
     order += `
           <div class="item under">
@@ -27,7 +30,6 @@ keys.forEach(key => {
   let totalPriceItemList = document.getElementsByClassName("total-priceItem")
 
   let subTotalPrice = document.getElementById("subtotal-price")
-  let shippingPrice = document.getElementById("shipping-price")
   let totalPrice = document.getElementById("total-price")
   let totalPriceModal = document.getElementById("total-price-modal")
 
@@ -79,7 +81,7 @@ keys.forEach(key => {
   }
   
   function handleTotal(){
-    totalPrice.textContent = parseInt(subTotalPrice.textContent) + parseFloat(shippingPrice.textContent) + "00 đ" 
+    totalPrice.textContent = parseInt(subTotalPrice.textContent) + ".000 đ" 
     totalPriceModal.textContent = totalPrice.textContent
   }
 
