@@ -138,3 +138,26 @@
 .hidden{
     display: none;
 }
+
+.shopping-cart{
+    position: fixed;
+    top: 70%; 
+    right: 0;
+    z-index: 1000;
+}
+.shopping-button{
+    background-color: #ddc3d4;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    border: none;
+}
+.shopping-count{
+    position: absolute;
+    top: 40px;
+    left: 20px;
+    background-color: #ff3cb7;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
