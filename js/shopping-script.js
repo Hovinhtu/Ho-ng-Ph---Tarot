@@ -175,9 +175,15 @@ function getData(){
                     let addToCartListBtn = document.getElementsByClassName("addToCart")
                     let buyNowListBtn = document.getElementsByClassName("buyNow")
                     let newCountItem = countItemArray
-                    
+                    let shoppingCount = document.getElementById("shopping-count")
                     newCountItem.push(arrayId.length)
                     
+                    const keys = Object.keys(localStorage);
+                    // Kiểm tra và xóa giá trị lưu sẵn trong firebase
+                    keys.forEach(key => {
+                        localStorage.removeItem(key)
+                    })
+
                     for(let i = 0; i < addToCartListBtn.length; i++){
                         addToCartListBtn[i].addEventListener('click',()=>{
                             for(let j = newCountItem[i]; j < newCountItem[i+1]; j++){
@@ -187,6 +193,8 @@ function getData(){
                                     let value = listBtn[j].parentNode.parentNode.querySelector(".active")!= null ? listBtn[j].parentNode.parentNode.querySelector(".active").textContent: autoValue[0]
                                     // value = value.slice(0, 3)
                                     localStorage.setItem(listBtn[j].textContent, value)  
+                                    // Xử lý hiển thị số lượng trên giỏ hàng
+                                    shoppingCount.textContent = Object.keys(localStorage).length
                                 }
                             }
                         })
